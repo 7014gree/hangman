@@ -13,3 +13,8 @@
 - Creates Hangman class
 - Adds logic for checking if a guess was correct or not and check for letters which have already been guessed
 - Adds logic for dealing with correct and incorrect guesses (i.e. revealing letters, recording guesses made so far, reducing lives on incorrect guesses)
+
+## Milestone 5
+- Adds play_game method for to initialise game and keep track of the state of the game (win, loss, take input from user for next turn)
+- As an extension, added an options menu to show the player further information about the state of the game (number of lives, what the word looks like after guesses made so far, letters which have already been guessed, an option to give up)
+- Modified print statements to give more information to the user, such as how many guesses it took upon a win or what the word was upon a loss.
