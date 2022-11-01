@@ -13,12 +13,19 @@ class Hangman():
     def check_guess(self, guess: str):
         guess = str.lower(guess)
         index = 0
-        for letter in self.word:
-            if guess == letter:
-                print(f"Good guess! {guess} is in the word.")
-                self.word_guessed[index] = guess
-            index += 1
+        if guess in self.word:
+            for letter in self.word:
+                if guess == letter:
+                    print(f"Good guess! {guess} is in the word.")
+                    self.word_guessed[index] = guess
+                index += 1
+        else:
+            self.num_lives -= 1
+            print(f"Sorry, {guess} is not in the word.")
+            print(f"You have {self.num_lives} lives left.")
         self.num_letters -= 1
+        self.list_of_guesses.append(guess)
+        
 
 
     def ask_for_input(self):
