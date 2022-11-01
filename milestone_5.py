@@ -35,7 +35,7 @@ class Hangman():
             option_selected = False
             if guess == "0":
                 option_selected, guess = self.check_state()
-            if option_selected != True:
+            if option_selected = False:
                 if not str.isalpha(guess) or len(guess) != 1:
                     print("Invalid input. Please, enter a single alphabetical character or 0 for options.")
                 elif str.lower(guess) in self.list_of_guesses:
