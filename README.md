@@ -1,4 +1,4 @@
-# hangman
+# Hangman
 
 ## Milestone 2
 - Code imports the package random to randomly select a word from a list

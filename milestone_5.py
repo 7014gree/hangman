@@ -35,7 +35,7 @@ class Hangman():
             option_selected = False
             if guess == "0":
                 option_selected, guess = self.check_state()
-            if option_selected = False:
+            if option_selected == False:
                 if not str.isalpha(guess) or len(guess) != 1:
                     print("Invalid input. Please, enter a single alphabetical character or 0 for options.")
                 elif str.lower(guess) in self.list_of_guesses:
@@ -85,6 +85,7 @@ def play_game(word_list: list):
             f"Number of guesses: {len(game.list_of_guesses)}. Best possible number of guesses: {len(set(game.word))}.")
             break
 
-play_game(["apple", "pear", "orange", "carrot"])
+if __name__ == "__main__":
+    play_game(["apple", "pear", "orange", "carrot"])
 # %%
 
