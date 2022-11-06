@@ -5,7 +5,7 @@ import re
 import time
 
 
-words = []
+words = set()
 
 print("Try sample.txt")
 file_path = str(input("Enter file path: "))
@@ -18,12 +18,13 @@ try:
             clean_words = re.split("[0-9]+|\[|\]|,|\'|\"|;|\.|\?|\\n|\(|\)|-|_|\{|\}|@|#|<|>| ", f.read())
             for word in clean_words:
                 if len(word) > 4:
-                    words.append(str.lower(word))
+                    words.add(str.lower(word))
     assert len(words) > 0
+    words = list(words)
     print(f"Word list loaded from {file_path}.")
 except:
     print(f"Error loading from {file_path}. Default word list used.")
-    words = ("apple", "banana", "carrot", "orange")
+    words = ["apple", "banana", "carrot", "orange"]
 
 
 class Hangman():
