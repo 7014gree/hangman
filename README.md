@@ -20,5 +20,5 @@
 - Modified print statements to give more information to the user, such as how many guesses it took upon a win or what the word was upon a loss.
 
 ## Extensions
-- Added functionality to populate the word list from a given file path. Uses a regular expression to remove special characters.
+- Added functionality to populate the word list from a given file path. Uses a regular expression to remove special characters. Currently only sample.txt is available in the folder to be read in, taken from https://en.wikipedia.org/wiki/United_Kingdom.
 - Future tasks: implement Hangman as a data class, populate the world list using a url.
