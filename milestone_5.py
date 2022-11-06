@@ -1,6 +1,29 @@
 #%%
 
 import random
+import re
+import time
+
+
+words = []
+
+print("Try sample.txt")
+file_path = str(input("Enter file path: "))
+
+try:  
+    with open(file_path, 'r', encoding = 'utf-8') as f:
+        for line in f:
+            #words.append(str.split(f.read(),"1234567890_-+=[]\{\}\":;@'~#?/>.<,|\\!£$%^&*()"))
+            #words_in_line = str.split(f.read(), "1234567890_-+=[]\{\}\":;@'~#?/>.<,|\\!£$%^&*()")
+            clean_words = re.split("[0-9]+|\[|\]|,|\'|\"|;|\.|\?|\\n|\(|\)|-|_|\{|\}|@|#|<|>| ", f.read())
+            for word in clean_words:
+                if len(word) > 4:
+                    words.append(str.lower(word))
+    assert len(words) > 0
+    print(f"Word list loaded from {file_path}.")
+except:
+    print(f"Error loading from {file_path}. Default word list used.")
+    words = ("apple", "banana", "carrot", "orange")
 
 
 class Hangman():
@@ -8,9 +31,10 @@ class Hangman():
         self.word_list = word_list
         self.num_lives = num_lives
         self.word = random.choice(word_list)
-        self.word_guessed = ['_' for x in self.word]
+        self.word_guessed = ['_' for letter in self.word]
         self.num_letters = len(set(self.word))
         self.list_of_guesses = []
+        print(f"\n{len(self.word)} letters: {''.join(self.word_guessed)}")
 
     def check_guess(self, guess: str):
         guess = str.lower(guess)
@@ -65,6 +89,8 @@ class Hangman():
             print(f"Number of lives remaining: {self.num_lives}")
         elif option == "4":
             self.num_lives = 0
+        elif option == "Debug":
+            print(f"{self.word}")
         else:
             return (False, option)
         return (True, option)
@@ -74,6 +100,7 @@ def play_game(word_list: list):
     game = Hangman(word_list, num_lives = 5)
 
     while True:
+        time.sleep(0.5)
         if game.num_lives == 0:
             print("\nYou lost!"
             f"The word was '{game.word}'.")
@@ -86,6 +113,10 @@ def play_game(word_list: list):
             break
 
 if __name__ == "__main__":
-    play_game(["apple", "pear", "orange", "carrot"])
+    while True:
+        play_game(words)
+        if str.lower(input("\nEnter 'c' to play again: ")) != 'c':
+            print("\nThanks for playing!")
+            break
 # %%
 
