@@ -18,3 +18,7 @@
 - Adds play_game method for to initialise game and keep track of the state of the game (win, loss, take input from user for next turn)
 - As an extension, added an options menu to show the player further information about the state of the game (number of lives, what the word looks like after guesses made so far, letters which have already been guessed, an option to give up)
 - Modified print statements to give more information to the user, such as how many guesses it took upon a win or what the word was upon a loss.
+
+## Extensions
+- Added functionality to populate the word list from a given file path. Uses a regular expression to remove special characters.
+- Future tasks: implement Hangman as a data class, populate the world list using a url.
