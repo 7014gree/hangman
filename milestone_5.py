@@ -13,13 +13,16 @@ class Hangman():
         self.word_guessed = ['_' for letter in self.word]
         self.num_letters = len(set(self.word))
         self.list_of_guesses = []
+
         print(f"\n{len(self.word)} letters: {''.join(self.word_guessed)}")
+        print(f"You have {self.num_lives} guesses remaining.")
 
     def check_guess(self, guess: str):
         guess = str.lower(guess)
         index = 0
         if guess in self.word:
             print(f"Good guess! '{guess}' is in the word.")
+            time.sleep(0.5)
             for letter in self.word:
                 if guess == letter:
                     self.word_guessed[index] = guess
@@ -29,7 +32,8 @@ class Hangman():
         else:
             self.num_lives -= 1
             print(f"Sorry, {guess} is not in the word.")
-            print(f"You have {self.num_lives} lives left.")
+            time.sleep(0.5)
+            print(f"You have {self.num_lives} guesses left.")
         
         
     def ask_for_input(self):
@@ -67,7 +71,7 @@ class Hangman():
             self.list_of_guesses.sort()
             print(f"Letters which have been guessed: {self.list_of_guesses}")
         elif option == "3":
-            print(f"Number of lives remaining: {self.num_lives}")
+            print(f"Number of guesses remaining: {self.num_lives}")
         elif option == "4":
             print(f"All {len(self.word_list)} possible words: {self.word_list}.")
         elif option == "5":
@@ -85,7 +89,7 @@ def play_game(word_list: list):
     while True:
         time.sleep(0.5)
         if game.num_lives == 0:
-            print("\nYou lost!"
+            print("\nYou lost!\n"
             f"The word was '{game.word}'.")
             break
         if game.num_letters > 0:
@@ -97,6 +101,7 @@ def play_game(word_list: list):
 
 def extract_words_from_path(file_path: str) -> list:
     extracted_words = set()
+    time.sleep(0.5)
 
     try:  
         with open(file_path, 'r', encoding = 'utf-8') as f:
@@ -122,6 +127,7 @@ if __name__ == "__main__":
     words_for_game = extract_words_from_path(str(input("Enter file path to extract words from: ")))
 
     while True:
+        time.sleep(0.5)
         play_game(words_for_game)
         if str.lower(input("\nEnter 'c' to play again: ")) != 'c':
             print("\nThanks for playing!")
