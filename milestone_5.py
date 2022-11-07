@@ -6,6 +6,8 @@ import time
 
 # Ideas
 # - read from url
+# - visual hangman
+# - gui
 # - tracking for best number of guesses for a given word
 # - tracking for streaks
 # - difficulty settings
@@ -49,6 +51,7 @@ class Hangman():
 
     def print_number_of_lives(self):
         print(f"You have {self.num_lives} guesses left.")
+        self.draw_hangman(10 - self.num_lives )
         
         
     def ask_for_input(self):
@@ -100,9 +103,35 @@ class Hangman():
             return (False, option)
         return (True, option)
 
+    # Static in case you feel like drawing for different numbers, probably unnecesary
+    @staticmethod
+    def draw_hangman(lives_lost):
+        try:
+            assert lives_lost > 0
+
+            # Dictionary of strings to draw the hangman, keys are the number of lives at which to start drawing the string for each line.
+            hangman_strings = [{1: "__ __", 2: "__|__"},
+            {1: "", 2: "  |", 9: "  |  /", 10: "  |  / \\"}, 
+            {1: "", 2: "  |", 6: "  |   |"},
+            {1: "", 2: "  |", 5: "  |   o", 7: "  |  _o", 8: "  |  _o_ "},
+            {1: "", 2: "  |", 4: "  |   |"},
+            {1: "", 3: "   ___"}]
+
+            # Finds highest key less than or equal to the number of lives lost
+            lambda_func = lambda key: key <= lives_lost
+
+            print(f"""{hangman_strings[5][list(filter(lambda_func, [1, 3]))[-1]]}
+{hangman_strings[4][list(filter(lambda_func, [1, 2, 4]))[-1]]}
+{hangman_strings[3][list(filter(lambda_func, [1, 2, 5, 7, 8]))[-1]]}
+{hangman_strings[2][list(filter(lambda_func, [1, 2, 6]))[-1]]}
+{hangman_strings[1][list(filter(lambda_func, [1, 2, 9, 10]))[-1]]}
+{hangman_strings[0][list(filter(lambda_func, [1, 2]))[-1]]}""")
+        except:
+            pass
+
 
 def play_game(word_list: list):
-    game = Hangman(word_list, num_lives = 5)
+    game = Hangman(word_list, num_lives = 10)
 
     while True:
         time.sleep(0.5)
