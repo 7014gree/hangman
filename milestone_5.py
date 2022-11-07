@@ -16,13 +16,16 @@ import time
 
 
 class Hangman():
-    def __init__(self, word_list: list, num_lives: int = 5):
+    def __init__(self, word_list: list, num_lives: int = 10):
         self.word_list = word_list
         self.num_lives = num_lives
         self.word = random.choice(word_list)
         self.word_guessed = ['_' for letter in self.word]
         self.num_letters = len(set(self.word))
         self.list_of_guesses = []
+
+        # Only prints hangman drawing for max lives = 10.
+        self.max_lives = num_lives
 
         print(f"\n{len(self.word)} letters: {''.join(self.word_guessed)}")
         time.sleep(0.5)
@@ -51,7 +54,8 @@ class Hangman():
 
     def print_number_of_lives(self):
         print(f"You have {self.num_lives} guesses left.")
-        self.draw_hangman(10 - self.num_lives )
+        if self.max_lives == 10:
+            self.draw_hangman(10 - self.num_lives )
         
         
     def ask_for_input(self):
@@ -130,8 +134,8 @@ class Hangman():
             pass
 
 
-def play_game(word_list: list):
-    game = Hangman(word_list, num_lives = 10)
+def play_game(word_list: list, num_lives: int):
+    game = Hangman(word_list, num_lives)
 
     while True:
         time.sleep(0.5)
@@ -175,7 +179,7 @@ if __name__ == "__main__":
 
     while True:
         time.sleep(0.5)
-        play_game(words_for_game)
+        play_game(words_for_game, 10)
         if str.lower(input("\nEnter 'c' to play again: ")) != 'c':
             print("\nThanks for playing!")
             break
