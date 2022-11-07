@@ -4,6 +4,14 @@ import random
 import re
 import time
 
+# Ideas
+# - read from url
+# - tracking for best number of guesses for a given word
+# - tracking for streaks
+# - difficulty settings
+# - tracking user win/loss score
+# - some form of ai for guessing?
+
 
 class Hangman():
     def __init__(self, word_list: list, num_lives: int = 5):
@@ -16,27 +24,30 @@ class Hangman():
 
         print(f"\n{len(self.word)} letters: {''.join(self.word_guessed)}")
         time.sleep(0.5)
-        print(f"You have {self.num_lives} guesses remaining.")
+        self.print_number_of_lives()
 
     def check_guess(self, guess: str):
         guess = str.lower(guess)
-        index = 0
+
         if guess in self.word:
             print(f"Good guess! '{guess}' is in the word.")
-            for letter in self.word:
+            for index, letter in enumerate(self.word):
                 if guess == letter:
                     self.word_guessed[index] = guess
-                index += 1
-            self.num_letters -= 1
+            self.num_letters -=1 
         else:
-            self.num_lives -= 1
             print(f"Sorry, {guess} is not in the word.")
-        self.get_state()
+            self.num_lives -= 1
 
-    def get_state(self):
         time.sleep(0.5)
+        self.print_word_so_far()
+        time.sleep(0.5)
+        self.print_number_of_lives()
+
+    def print_word_so_far(self):
         print(f"Word so far: {''.join(self.word_guessed)}.")
-        time.sleep(0.5)
+
+    def print_number_of_lives(self):
         print(f"You have {self.num_lives} guesses left.")
         
         
@@ -44,11 +55,11 @@ class Hangman():
         while True:
             guess = str(input("\nGuess a letter or enter 'Options' for options: "))
             option_selected = False
-            if str.lower(guess) == "options":
-                option_selected, guess = self.check_state()
+            if str.lower(guess) == "options" or str.lower(guess) == "0":
+                option_selected, guess = self.options_menu()
             if option_selected == False:
                 if not str.isalpha(guess) or len(guess) != 1:
-                    print("Invalid input. Please, enter a single alphabetical character or 0 for options.")
+                    print("Invalid input. Please, enter a single alphabetical character or 'Options' for options menu.")
                 elif str.lower(guess) in self.list_of_guesses:
                     print("You already tried that letter!")
                 else:
@@ -56,7 +67,9 @@ class Hangman():
                     self.list_of_guesses.append(guess)
             break
 
-    def check_state(self) -> tuple:
+    def options_menu(self) -> tuple:
+        time.sleep(1)
+
         print("\n== Options Menu ==\n"
         "- Enter '1' to see the word so far.\n"
         "- Enter '2' to see which letters have already been guessed.\n"
@@ -66,16 +79,17 @@ class Hangman():
         "- Enter a letter to make a guess.\n")
 
         option = str(input("Option selection: "))
+        time.sleep(0.5)
 
         # If a valid option (i.e. 1 - 4) is input, returns True so user is prompted for new input.
         # For any other input, returning False and the option input leads to the guess logic as normal.
         if option == "1":
-            print(f"Word so far: {''.join(self.word_guessed)}.")
+            self.print_word_so_far()
         elif option == "2":
             self.list_of_guesses.sort()
             print(f"Letters which have been guessed: {self.list_of_guesses}.")
         elif option == "3":
-            print(f"Number of guesses remaining: {self.num_lives}.")
+            self.print_number_of_lives()
         elif option == "4":
             print(f"All {len(self.word_list)} possible words: {self.word_list}.")
         elif option == "5":
