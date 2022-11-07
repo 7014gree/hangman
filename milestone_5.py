@@ -95,32 +95,34 @@ def play_game(word_list: list):
             f"Number of guesses: {len(game.list_of_guesses)}. Best possible number of guesses: {len(set(game.word))}.")
             break
 
-if __name__ == "__main__":
-    # Could make a function for loading in the file.
-    words = set()
-
-    print("Try sample.txt")
-    file_path = str(input("Enter file path: "))
+def extract_words_from_path(file_path: str) -> list:
+    extracted_words = set()
 
     try:  
         with open(file_path, 'r', encoding = 'utf-8') as f:
             for line in f:
-                #words.append(str.split(f.read(),"1234567890_-+=[]\{\}\":;@'~#?/>.<,|\\!£$%^&*()"))
-                #words_in_line = str.split(f.read(), "1234567890_-+=[]\{\}\":;@'~#?/>.<,|\\!£$%^&*()")
                 clean_words = re.split("[0-9]+|\[|\]|,|\'|\"|;|\.|\?|\\n|\(|\)|-|_|\{|\}|@|#|<|>| ", f.read())
                 for word in clean_words:
                     if len(word) > 4:
-                        words.add(str.lower(word))
-        assert len(words) > 0
-        words = list(words)
-        words.sort()
+                        extracted_words.add(str.lower(word))
+        assert len(extracted_words) > 0
+        extracted_words = list(extracted_words)
+        extracted_words.sort()
         print(f"Word list loaded from {file_path}.")
+        return extracted_words
     except:
+        # If any errors with extraction, returns default word list
         print(f"Error loading from {file_path}. Default word list used.")
-        words = ["apple", "banana", "carrot", "orange"]
+        return ["apple", "banana", "carrot", "orange"] 
+    
+
+if __name__ == "__main__":
+    # Hint for a file that is in the folder i.e. a file that will work
+    print("Hint: Try sample.txt")
+    words_for_game = extract_words_from_path(str(input("Enter file path to extract words from: ")))
 
     while True:
-        play_game(words)
+        play_game(words_for_game)
         if str.lower(input("\nEnter 'c' to play again: ")) != 'c':
             print("\nThanks for playing!")
             break
