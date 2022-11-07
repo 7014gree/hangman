@@ -15,6 +15,7 @@ class Hangman():
         self.list_of_guesses = []
 
         print(f"\n{len(self.word)} letters: {''.join(self.word_guessed)}")
+        time.sleep(0.5)
         print(f"You have {self.num_lives} guesses remaining.")
 
     def check_guess(self, guess: str):
@@ -22,18 +23,21 @@ class Hangman():
         index = 0
         if guess in self.word:
             print(f"Good guess! '{guess}' is in the word.")
-            time.sleep(0.5)
             for letter in self.word:
                 if guess == letter:
                     self.word_guessed[index] = guess
                 index += 1
             self.num_letters -= 1
-            print(f"Word so far: {''.join(self.word_guessed)}.")
         else:
             self.num_lives -= 1
             print(f"Sorry, {guess} is not in the word.")
-            time.sleep(0.5)
-            print(f"You have {self.num_lives} guesses left.")
+        self.get_state()
+
+    def get_state(self):
+        time.sleep(0.5)
+        print(f"Word so far: {''.join(self.word_guessed)}.")
+        time.sleep(0.5)
+        print(f"You have {self.num_lives} guesses left.")
         
         
     def ask_for_input(self):
@@ -69,9 +73,9 @@ class Hangman():
             print(f"Word so far: {''.join(self.word_guessed)}.")
         elif option == "2":
             self.list_of_guesses.sort()
-            print(f"Letters which have been guessed: {self.list_of_guesses}")
+            print(f"Letters which have been guessed: {self.list_of_guesses}.")
         elif option == "3":
-            print(f"Number of guesses remaining: {self.num_lives}")
+            print(f"Number of guesses remaining: {self.num_lives}.")
         elif option == "4":
             print(f"All {len(self.word_list)} possible words: {self.word_list}.")
         elif option == "5":
