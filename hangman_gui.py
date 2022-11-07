@@ -4,15 +4,14 @@ import random
 import re
 import time
 
-# Ideas for extensions:
-# - read word_list from url
-# - visual hangman. done.
+# Ideas
+# - read from url
+# - visual hangman
 # - gui
-# - implement Hangman as a dataclass
 # - tracking for best number of guesses for a given word
 # - tracking for streaks
 # - difficulty settings
-# - tracking user lifetime win/loss score
+# - tracking user win/loss score
 # - some form of ai for guessing?
 
 
@@ -21,7 +20,7 @@ class Hangman():
         self.word_list = word_list
         self.num_lives = num_lives
         self.word = random.choice(word_list)
-        self.word_guessed = ['_' * len(self.word)]
+        self.word_guessed = ['_' for letter in self.word]
         self.num_letters = len(set(self.word))
         self.list_of_guesses = []
 
@@ -32,18 +31,14 @@ class Hangman():
         time.sleep(0.5)
         self.print_number_of_lives()
 
-
     def check_guess(self, guess: str):
-        # Converts to lower case for easier comparison.
         guess = str.lower(guess)
 
         if guess in self.word:
             print(f"Good guess! '{guess}' is in the word.")
             for index, letter in enumerate(self.word):
-                # Changes every instance of _ for the letter to the letter.
                 if guess == letter:
                     self.word_guessed[index] = guess
-            # Decrements the unique letter count only once always.
             self.num_letters -=1 
         else:
             print(f"Sorry, {guess} is not in the word.")
@@ -53,7 +48,6 @@ class Hangman():
         self.print_word_so_far()
         time.sleep(0.5)
         self.print_number_of_lives()
-
 
     def print_word_so_far(self):
         print(f"Word so far: {''.join(self.word_guessed)}.")
@@ -68,12 +62,8 @@ class Hangman():
         while True:
             guess = str(input("\nGuess a letter or enter 'Options' for options: "))
             option_selected = False
-
-            # Prints options menu and prompts for user input.
             if str.lower(guess) == "options" or str.lower(guess) == "0":
                 option_selected, guess = self.options_menu()
-            
-            # If not going to options menu, take input as normal. Check that input is valid before changing letters/number of lives.
             if option_selected == False:
                 if not str.isalpha(guess) or len(guess) != 1:
                     print("Invalid input. Please, enter a single alphabetical character or 'Options' for options menu.")
@@ -98,7 +88,7 @@ class Hangman():
         option = str(input("Option selection: "))
         time.sleep(0.5)
 
-        # If a valid option (i.e. 1 - 5) is input, returns True so user is prompted for new input.
+        # If a valid option (i.e. 1 - 4) is input, returns True so user is prompted for new input.
         # For any other input, returning False and the option input leads to the guess logic as normal.
         if option == "1":
             self.print_word_so_far()
@@ -117,7 +107,7 @@ class Hangman():
             return (False, option)
         return (True, option)
 
-    # Static in case you feel like drawing for different numbers, probably unnecessary
+    # Static in case you feel like drawing for different numbers, probably unnecesary
     @staticmethod
     def draw_hangman(lives_lost):
         try:
@@ -160,40 +150,30 @@ def play_game(word_list: list, num_lives: int):
             f"Number of guesses: {len(game.list_of_guesses)}. Best possible number of guesses: {len(set(game.word))}.")
             break
 
-# Could eventually extend to work for urls.
 def extract_words_from_path(file_path: str) -> list:
-    # Is originally a set to avoid duplication.
     extracted_words = set()
     time.sleep(0.5)
 
     try:  
         with open(file_path, 'r', encoding = 'utf-8') as f:
             for line in f:
-                # Removes special characters.
                 clean_words = re.split("[0-9]+|\[|\]|,|\'|\"|;|\.|\?|\\n|\(|\)|-|_|\{|\}|@|#|<|>| ", f.read())
                 for word in clean_words:
                     if len(word) > 4:
                         extracted_words.add(str.lower(word))
         assert len(extracted_words) > 0
-        
-        # Convert to list as random.choice only works with sequences apparently, guess this could be a tuple if that's faster?
         extracted_words = list(extracted_words)
-
-        # Sorts alphabetically for options menu output.
         extracted_words.sort()
-
-        # Confirmation message.
         print(f"Word list loaded from {file_path}.")
         return extracted_words
-
     except:
-        # If any errors with extraction, returns default word list.
+        # If any errors with extraction, returns default word list
         print(f"Error loading from {file_path}. Default word list used.")
         return ["apple", "banana", "carrot", "orange"] 
     
 
 if __name__ == "__main__":
-    # Hint for a file that is in the folder i.e. a file that will work.
+    # Hint for a file that is in the folder i.e. a file that will work
     print("Hint: Try sample.txt")
     words_for_game = extract_words_from_path(str(input("Enter file path to extract words from: ")))
 
