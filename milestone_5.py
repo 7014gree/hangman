@@ -59,7 +59,8 @@ class Hangman():
         print(f"Word so far: {''.join(self.word_guessed)}.")
 
     def print_number_of_lives(self) -> None:
-        print(f"You have {self.num_lives} guesses left.")
+        # Unnecessary way to print guess singular for when 1 life is remaining
+        print(f"You have {self.num_lives} guess{['es',''][self.num_lives == 1]} left.")
         if self.max_lives == 10:
             self.draw_hangman(10 - self.num_lives )
         
@@ -124,22 +125,29 @@ class Hangman():
             assert lives_lost > 0
 
             # Dictionary of strings to draw the hangman, keys are the number of lives at which to start drawing the string for each line.
-            hangman_strings = [{1: "__ __", 2: "__|__"},
-            {1: "", 2: "  |", 9: "  |  /", 10: "  |  / \\"}, 
-            {1: "", 2: "  |", 6: "  |   |"},
-            {1: "", 2: "  |", 5: "  |   o", 7: "  |  _o", 8: "  |  _o_ "},
-            {1: "", 2: "  |", 4: "  |   |"},
-            {1: "", 3: "   ___"}]
+            hangman_dictionary_1 = {1: "", 3: "   ___"}
+            hangman_dictionary_2 = {1: "", 2: "  |", 4: "  |   |"}
+            hangman_dictionary_3 = {1: "", 2: "  |", 5: "  |   o", 7: "  |  _o", 8: "  |  _o_ "}
+            hangman_dictionary_4 = {1: "", 2: "  |", 6: "  |   |"}
+            hangman_dictionary_5 = {1: "", 2: "  |", 9: "  |  /", 10: "  |  / \\"}
+            hangman_dictionary_6 = {1: "__ __", 2: "__|__"}
 
             # Finds highest key less than or equal to the number of lives lost
             lambda_func = lambda key: key <= lives_lost
 
-            print(f"""{hangman_strings[5][list(filter(lambda_func, [1, 3]))[-1]]}
-{hangman_strings[4][list(filter(lambda_func, [1, 2, 4]))[-1]]}
-{hangman_strings[3][list(filter(lambda_func, [1, 2, 5, 7, 8]))[-1]]}
-{hangman_strings[2][list(filter(lambda_func, [1, 2, 6]))[-1]]}
-{hangman_strings[1][list(filter(lambda_func, [1, 2, 9, 10]))[-1]]}
-{hangman_strings[0][list(filter(lambda_func, [1, 2]))[-1]]}""")
+            # list(filter(lambda_func,[x, y, z][-1])) gets the largest valid key in a dictionary which is less than the number of lives lost
+            # For an using the bottom line, with 1 life lost it will print '__ __'. lambda_func returns [True, False] so filter returns [1] only.
+            # Taking the -1th index returns 1.
+            # For any number 2 or greater it will find '2' in the list as the last valid key in order to print '__|__'.
+            # lambda_func returns [True, True] so filter returns [1, 2].
+            # Taking the -1th index returns 2.
+            # e.g. for lives_lost = 6, the bottom line equates to hangman_dictionary_6[2], hence selects the value from 2: '__|__ in the dictionary.
+            print(f"""{hangman_dictionary_1[list(filter(lambda_func, [1, 3]))[-1]]}
+{hangman_dictionary_2[list(filter(lambda_func, [1, 2, 4]))[-1]]}
+{hangman_dictionary_3[list(filter(lambda_func, [1, 2, 5, 7, 8]))[-1]]}
+{hangman_dictionary_4[list(filter(lambda_func, [1, 2, 6]))[-1]]}
+{hangman_dictionary_5[list(filter(lambda_func, [1, 2, 9, 10]))[-1]]}
+{hangman_dictionary_6[list(filter(lambda_func, [1, 2]))[-1]]}""")
 
         # Assertion error if no lives have been lost, skips printing a blank hangman drawing.
         except AssertionError:
