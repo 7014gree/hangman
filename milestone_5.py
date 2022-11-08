@@ -33,7 +33,7 @@ class Hangman():
         self.print_number_of_lives()
 
 
-    def check_guess(self, guess: str):
+    def check_guess(self, guess: str) -> None:
         # Converts to lower case for easier comparison.
         guess = str.lower(guess)
 
@@ -55,16 +55,16 @@ class Hangman():
         self.print_number_of_lives()
 
 
-    def print_word_so_far(self):
+    def print_word_so_far(self) -> None:
         print(f"Word so far: {''.join(self.word_guessed)}.")
 
-    def print_number_of_lives(self):
+    def print_number_of_lives(self) -> None:
         print(f"You have {self.num_lives} guesses left.")
         if self.max_lives == 10:
             self.draw_hangman(10 - self.num_lives )
         
         
-    def ask_for_input(self):
+    def ask_for_input(self) -> None:
         while True:
             guess = str(input("\nGuess a letter or enter 'Options' for options: "))
             option_selected = False
@@ -119,7 +119,7 @@ class Hangman():
 
     # Static in case you feel like drawing for different numbers, probably unnecessary
     @staticmethod
-    def draw_hangman(lives_lost):
+    def draw_hangman(lives_lost: int) -> None:
         try:
             assert lives_lost > 0
 
@@ -146,7 +146,7 @@ class Hangman():
             pass
 
 
-def play_game(word_list: list, num_lives: int):
+def play_game(word_list: list, num_lives: int = 10) -> None:
     game = Hangman(word_list, num_lives)
 
     while True:
@@ -191,6 +191,7 @@ def extract_words_from_path(file_path: str) -> list:
     except FileNotFoundError:
         # Print if file not found.
         print(f"Erorr: No file found at {file_path}. Default word list used.")
+        
     except AssertionError:
         # Print if list of extracted words contains no words.
         print(f"Error: No valid words extracted from {file_path}. Default word list used.")
