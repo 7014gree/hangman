@@ -186,7 +186,6 @@ def extract_words_from_path(file_path: str) -> list:
                 for word in clean_words:
                     if len(word) > 4:
                         extracted_words.add(str.lower(word))
-                print(len(extracted_words))
         assert len(extracted_words) > 0
         
         # Convert to list as random.choice only works with sequences apparently, guess this could be a tuple if that's faster?
