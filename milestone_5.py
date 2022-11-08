@@ -124,6 +124,8 @@ class Hangman():
         try:
             assert lives_lost > 0
 
+            time.sleep(0.5)
+
             # Dictionary of strings to draw the hangman, keys are the number of lives at which to start drawing the string for each line.
             hangman_dictionary_1 = {1: "", 3: "   ___"}
             hangman_dictionary_2 = {1: "", 2: "  |", 4: "  |   |"}
@@ -178,12 +180,13 @@ def extract_words_from_path(file_path: str) -> list:
 
     try:  
         with open(file_path, 'r', encoding = 'utf-8') as f:
-            for line in f:
+            for line in f.readlines():
                 # Removes special characters.
-                clean_words = re.split("[0-9]+|\[|\]|,|\'|\"|;|\.|\?|\\n|\(|\)|-|_|\{|\}|@|#|<|>| ", f.read())
+                clean_words = re.split("[0-9]+|\[|\]|,|\'|\"|;|\.|\?|\\n|\(|\)|-|_|\{|\}|@|#|<|>| ", line)
                 for word in clean_words:
                     if len(word) > 4:
                         extracted_words.add(str.lower(word))
+                print(len(extracted_words))
         assert len(extracted_words) > 0
         
         # Convert to list as random.choice only works with sequences apparently, guess this could be a tuple if that's faster?
