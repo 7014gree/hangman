@@ -140,7 +140,9 @@ class Hangman():
 {hangman_strings[2][list(filter(lambda_func, [1, 2, 6]))[-1]]}
 {hangman_strings[1][list(filter(lambda_func, [1, 2, 9, 10]))[-1]]}
 {hangman_strings[0][list(filter(lambda_func, [1, 2]))[-1]]}""")
-        except:
+
+        # Assertion error if no lives have been lost, skips printing a blank hangman drawing.
+        except AssertionError:
             pass
 
 
@@ -186,10 +188,15 @@ def extract_words_from_path(file_path: str) -> list:
         print(f"Word list loaded from {file_path}.")
         return extracted_words
 
-    except:
-        # If any errors with extraction, returns default word list.
-        print(f"Error loading from {file_path}. Default word list used.")
-        return ["apple", "banana", "carrot", "orange"] 
+    except FileNotFoundError:
+        # Print if file not found.
+        print(f"Erorr: No file found at {file_path}. Default word list used.")
+    except AssertionError:
+        # Print if list of extracted words contains no words.
+        print(f"Error: No valid words extracted from {file_path}. Default word list used.")
+    
+    # Return this list of words if exception is raised.
+    return ["apple", "banana", "carrot", "orange"] 
     
 
 if __name__ == "__main__":
