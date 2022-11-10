@@ -64,8 +64,10 @@ class Hangman():
     def print_number_of_lives(self) -> None:
         # Unnecessary way to print guess singular for when 1 life is remaining
         print(f"You have {self.num_lives} guess{['es',''][self.num_lives == 1]} left.")
-        if self.max_lives == 10:
+        try:
             self.draw_hangman(10 - self.num_lives )
+        except:
+            pass
         
         
     def ask_for_input(self) -> None:
@@ -161,7 +163,7 @@ class Hangman():
 
 def play_game(word_list: list) -> None:
 
-    game = Hangman(word_list, 5)
+    game = Hangman(word_list, 4)
 
     while True:
         time.sleep(0.5)
@@ -217,10 +219,10 @@ def extract_words_from_path(file_path: str, dir_name: str) -> list:
 if __name__ == "__main__":
     # Hint for a file that is in the folder i.e. a file that will work.
     dir_name = os.path.dirname(os.path.realpath(__file__))
-    print(f"Current directory is: {dir_name}")
+    #print(f"Current directory is: {dir_name}")
 
     print("Hint: Try 'sample.txt'")
-    words_for_game = extract_words_from_path(str(input("Enter file name in current directory to extract words from: ")), dir_name)
+    words_for_game = extract_words_from_path(str(input(f"Enter file name in current directory to extract words from: {dir_name}\\")), dir_name)
 
     while True:
         time.sleep(0.5)
