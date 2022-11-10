@@ -3,6 +3,9 @@
 import random
 import re
 import time
+import os
+
+
 
 # Ideas for extensions:
 # - read word_list from url
@@ -173,13 +176,13 @@ def play_game(word_list: list, num_lives: int = 10) -> None:
             break
 
 # Could eventually extend to work for urls.
-def extract_words_from_path(file_path: str) -> list:
+def extract_words_from_path(file_path: str, dir_name: str) -> list:
     # Is originally a set to avoid duplication.
     extracted_words = set()
     time.sleep(0.5)
 
-    try:  
-        with open(file_path, 'r', encoding = 'utf-8') as f:
+    try:
+        with open(dir_name + "/" + file_path, 'r', encoding = 'utf-8') as f:
             for line in f.readlines():
                 # Removes special characters.
                 clean_words = re.split("[0-9]+|\[|\]|,|\'|\"|;|\.|\?|\\n|\(|\)|-|_|\{|\}|@|#|<|>| ", line)
@@ -212,12 +215,15 @@ def extract_words_from_path(file_path: str) -> list:
 
 if __name__ == "__main__":
     # Hint for a file that is in the folder i.e. a file that will work.
-    print("Hint: Try sample.txt")
-    words_for_game = extract_words_from_path(str(input("Enter file path to extract words from: ")))
+    dir_name = os.path.dirname(os.path.realpath(__file__))
+    print(f"Current directory is: {dir_name}")
+
+    print("Hint: Try 'sample.txt'")
+    words_for_game = extract_words_from_path(str(input("Enter file name to extract words from in current directory: ")), dir_name)
 
     while True:
         time.sleep(0.5)
-        play_game(words_for_game, 10)
+        play_game(words_for_game, 3)
         if str.lower(input("\nEnter 'c' to play again: ")) != 'c':
             print("\nThanks for playing!")
             break
