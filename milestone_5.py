@@ -159,8 +159,9 @@ class Hangman():
             pass
 
 
-def play_game(word_list: list, num_lives: int = 10) -> None:
-    game = Hangman(word_list, num_lives)
+def play_game(word_list: list) -> None:
+
+    game = Hangman(word_list, 5)
 
     while True:
         time.sleep(0.5)
@@ -219,11 +220,13 @@ if __name__ == "__main__":
     print(f"Current directory is: {dir_name}")
 
     print("Hint: Try 'sample.txt'")
-    words_for_game = extract_words_from_path(str(input("Enter file name to extract words from in current directory: ")), dir_name)
+    words_for_game = extract_words_from_path(str(input("Enter file name in current directory to extract words from: ")), dir_name)
 
     while True:
         time.sleep(0.5)
-        play_game(words_for_game, 3)
+
+        play_game(words_for_game)
+
         if str.lower(input("\nEnter 'c' to play again: ")) != 'c':
             print("\nThanks for playing!")
             break
