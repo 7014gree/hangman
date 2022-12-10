@@ -179,7 +179,7 @@ def play_game(word_list: list) -> None:
             break
 
 # Could eventually extend to work for urls.
-def extract_words_from_path(file_path: str, dir_name: str) -> list:
+def extract_words_from_path(file_path: str,dir_name: str) -> list:
     # Is originally a set to avoid duplication.
     extracted_words = set()
     time.sleep(0.5)
